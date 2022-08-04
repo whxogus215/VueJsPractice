@@ -1,17 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <div>
-    <h4>{{products[0]}}</h4>
-    <p>50 만원</p>
+
+  <div class="black-bg" v-if="모달창열렸니 == true">
+    <div class="white-bg">
+      <h4>상세페이지임</h4>
+      <p>상세페이지 내용임</p>
+      <button @click="모달창열렸니 = false">닫기</button>
+    </div>
   </div>
-  <div>
-    <h4>{{products[1]}}</h4>
-    <p>70 만원</p>
+
+
+  <div class="menu">
+    <a v-for="(a,i) in 메뉴들" :key="i">{{ a }}</a>
   </div>
-  <div>
-    <h4>{{products[2]}}</h4>
-    <p>70 만원</p>
+  
+  <div v-for="(product,i) in products" :key="product">
+    <img :src="getSrc(i)" class="room-img">
+    <h4 @click="모달창열렸니 = true">{{product}}</h4>
+    <p>{{가격들[i]}}</p>
+    <button @click="신고수[i]++">허위매물신고</button> <span>신고 수 : {{신고수[i]}}</span>
   </div>
+
 </template>
 
 <script>
@@ -21,8 +29,21 @@ export default {
   // 데이터 보관함
   data(){
     return {
-      products : ['역삼동원룸','천호동원룸','마포구원룸']
+      모달창열렸니 : false,
+      신고수 : [0,0,0],
+      메뉴들 : ['Home','Shop','About'],
+      products : ['역삼동원룸','천호동원룸','마포구원룸'],
+      가격들 : ['50만원','70만원','90만원'],
     }
+  },
+  methods : {
+    increase(){
+      this.신고수 += 1;
+    },
+    getSrc(index){
+      return require('./assets/room'+index+'.jpg');
+    }
+
   },
   components: {
   }
@@ -36,6 +57,37 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+
+.menu {
+  background : darkslateblue;
+  padding : 15px;
+  border-radius : 5px;
+}
+.menu a {
+  color : white;
+  padding : 10px;
+}
+.room-img {
+  width: 100%;
+  margin-top: 40px;
+}
+
+body {
+  margin : 0;
+}
+div {
+  box-sizing: border-box;
+}
+.black-bg {
+  width: 100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  position: fixed; padding: 20px;
+}
+.white-bg {
+  width: 100%; background: white;
+  border-radius: 8px;
+  padding: 20px;
+} 
+
 </style>
