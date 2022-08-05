@@ -1,39 +1,38 @@
 <template>
 
-  <div class="black-bg" v-if="모달창열렸니 == true">
-    <div class="white-bg">
-      <h4>상세페이지임</h4>
-      <p>상세페이지 내용임</p>
-      <button @click="모달창열렸니 = false">닫기</button>
-    </div>
-  </div>
+  <Modal/>
+  <Discount/>
+
+
 
 
   <div class="menu">
     <a v-for="(a,i) in 메뉴들" :key="i">{{ a }}</a>
   </div>
   
-  <div v-for="(product,i) in products" :key="product">
-    <img :src="getSrc(i)" class="room-img">
-    <h4 @click="모달창열렸니 = true">{{product}}</h4>
-    <p>{{가격들[i]}}</p>
-    <button @click="신고수[i]++">허위매물신고</button> <span>신고 수 : {{신고수[i]}}</span>
+  <div v-for="(원룸,i) in 원룸들" :key="i">
+    <img :src="원룸.image" class="room-img">
+    <h4 @click="모달창열렸니 = true; 누른거 = i">{{원룸.title}}</h4>
+    <p>{{원룸.price}}</p>
   </div>
 
 </template>
 
 <script>
 
+import data from './assets/oneroom.js';
+import Discount from './Discount.vue';
+import Modal from './assets/Modal.vue';
+
 export default {
   name: 'App',
   // 데이터 보관함
   data(){
     return {
+      누른거 : 0,
+      원룸들 : data,
       모달창열렸니 : false,
-      신고수 : [0,0,0],
       메뉴들 : ['Home','Shop','About'],
-      products : ['역삼동원룸','천호동원룸','마포구원룸'],
-      가격들 : ['50만원','70만원','90만원'],
     }
   },
   methods : {
@@ -46,7 +45,10 @@ export default {
 
   },
   components: {
-  }
+    Discount // Discount : Discount
+    ,
+    Modal
+}
 }
 </script>
 
@@ -89,5 +91,10 @@ div {
   border-radius: 8px;
   padding: 20px;
 } 
-
+.discount {
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
 </style>
